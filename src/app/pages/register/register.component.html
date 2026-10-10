@@ -1,0 +1,41 @@
+<div class="wrapper">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title><mat-icon>checklist</mat-icon> TaskFlow</mat-card-title>
+      <mat-card-subtitle>Créer un compte</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (error()) {
+        <p class="error"><mat-icon>error</mat-icon> {{ error() }}</p>
+      }
+
+      <form (ngSubmit)="submit()" class="form">
+        <mat-form-field appearance="outline">
+          <mat-label>Nom d'utilisateur</mat-label>
+          <input matInput [(ngModel)]="username" name="username" required />
+          <mat-icon matPrefix>person</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="email" name="email" required />
+          <mat-icon matPrefix>mail</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput type="password" [(ngModel)]="password" name="password" required minlength="6" />
+          <mat-icon matPrefix>lock</mat-icon>
+          <mat-hint>6 caractères minimum</mat-hint>
+        </mat-form-field>
+
+        <button mat-flat-button type="submit">Créer mon compte</button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer class="footer">
+      Déjà inscrit ? <a routerLink="/login">Se connecter</a>
+    </mat-card-footer>
+  </mat-card>
+</div>

@@ -1,0 +1,43 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 4rem 1rem;
+}
+
+.card {
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem;
+}
+
+mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+.error {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin: .5rem 0 0;
+    padding: .6rem;
+    border-radius: 8px;
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.footer {
+    text-align: center;
+    padding: 1rem;
+}
+
+a {
+    text-decoration: none;
+}

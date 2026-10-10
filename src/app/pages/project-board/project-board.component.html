@@ -1,0 +1,58 @@
+<div class="container">
+  <a routerLink="/" mat-button><mat-icon>arrow_back</mat-icon> Mes projets</a>
+  <h1>{{ project()?.name }}</h1>
+  <p class="subtitle">{{ project()?.description }}</p>
+
+  @if (error()) {
+    <p class="error"><mat-icon>error</mat-icon> {{ error() }}</p>
+  }
+
+  <mat-card class="create">
+    <form class="form" (ngSubmit)="addTask()">
+      <mat-form-field appearance="outline" class="grow">
+        <mat-label>Nouvelle tâche</mat-label>
+        <input matInput [(ngModel)]="newTitle" name="title" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="priority">
+        <mat-label>Priorité</mat-label>
+        <mat-select [(ngModel)]="newPriority" name="priority">
+          <mat-option value="LOW">Basse</mat-option>
+          <mat-option value="MEDIUM">Moyenne</mat-option>
+          <mat-option value="HIGH">Haute</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button type="submit"><mat-icon>add</mat-icon> Ajouter</button>
+    </form>
+  </mat-card>
+
+  <div class="board" cdkDropListGroup>
+    @for (col of columns; track col.status) {
+      <section class="column">
+        <h2>{{ col.label }} <span class="count">{{ tasks[col.status].length }}</span></h2>
+
+        <div class="list" cdkDropList
+             [cdkDropListData]="tasks[col.status]"
+             (cdkDropListDropped)="drop($event, col.status)">
+          @for (t of tasks[col.status]; track t.id) {
+            <mat-card class="task" cdkDrag appearance="outlined">
+              <div class="task-header">
+                <strong>{{ t.title }}</strong>
+                <button mat-icon-button (click)="deleteTask(t)" aria-label="Supprimer">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+              <div class="meta">
+                <span class="badge" [class]="'badge ' + t.priority">{{ t.priority }}</span>
+                @if (t.dueDate) {
+                  <span class="due"><mat-icon>event</mat-icon> {{ t.dueDate }}</span>
+                }
+              </div>
+            </mat-card>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="container">
+  <h1>Mes projets</h1>
+
+  @if (error()) {
+    <p class="error"><mat-icon>error</mat-icon> {{ error() }}</p>
+  }
+
+  <mat-card class="create">
+    <form class="form" (ngSubmit)="create()">
+      <mat-form-field appearance="outline" class="grow">
+        <mat-label>Nom du projet</mat-label>
+        <input matInput [(ngModel)]="name" name="name" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="grow">
+        <mat-label>Description</mat-label>
+        <input matInput [(ngModel)]="description" name="description" />
+      </mat-form-field>
+      <button mat-flat-button type="submit"><mat-icon>add</mat-icon> Ajouter</button>
+    </form>
+  </mat-card>
+
+  <div class="grid">
+    @for (p of projects(); track p.id) {
+      <mat-card class="project" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>
+            <a [routerLink]="['/projects', p.id]">{{ p.name }}</a>
+          </mat-card-title>
+          <mat-card-subtitle>{{ p.createdAt | date: 'dd/MM/yyyy' }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ p.description || 'Aucune description' }}</p>
+          <span class="count"><mat-icon>task_alt</mat-icon> {{ p.taskCount }} tâche(s)</span>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <a mat-button [routerLink]="['/projects', p.id]">Ouvrir</a>
+          <button mat-icon-button (click)="delete(p.id)" aria-label="Supprimer">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    } @empty {
+      <p class="empty">Aucun projet pour l'instant. Crée le premier ! 🚀</p>
+    }
+  </div>
+</div>
