@@ -12,13 +12,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button'; 
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { UserService } from '../../servicess/user.service';
+import { UserSummary } from '../../models/user';
 
 
 @Component({
   selector: 'app-project-board',
-  imports: [DragDropModule, FormsModule, RouterLink,MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatIconModule],
+  imports: [DragDropModule, FormsModule, RouterLink, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatIconModule],
   templateUrl: './project-board.component.html',
   styleUrl: './project-board.component.scss'
 })
@@ -26,6 +28,9 @@ export class ProjectBoardComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private projectService = inject(ProjectService);
   private taskService = inject(TaskService);
+
+  private userService = inject(UserService);
+  users: UserSummary[] = [];
 
   projectId = Number(this.route.snapshot.paramMap.get('id'));
   project = signal<Project | null>(null);
@@ -49,6 +54,8 @@ export class ProjectBoardComponent implements OnInit {
       error: () => this.error.set('Projet introuvable.')
     });
     this.loadTasks();
+
+    this.userService.getUsers().subscribe((u) => (this.users = u));
   }
 
   loadTasks(): void {
@@ -106,6 +113,16 @@ export class ProjectBoardComponent implements OnInit {
         this.tasks[task.status] = this.tasks[task.status].filter((t) => t.id !== task.id);
       },
       error: () => this.error.set('Erreur lors de la suppression.')
+    });
+  }
+
+  assign(task: Task, userId: number): void {
+    this.taskService.assign(task.id, userId).subscribe({
+      next: (updated) => {
+        task.assigneeId = updated.assigneeId;
+        task.assigneeName = updated.assigneeName;
+      },
+      error: () => this.error.set("Impossible d'assigner la tâche.")
     });
   }
 }

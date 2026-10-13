@@ -158,3 +158,8 @@ h1 {
 .list.cdk-drop-list-dragging .task:not(.cdk-drag-placeholder) {
     transition: transform 200ms ease;
 }
+
+.assignee {
+    width: 100%;
+    margin-top: .5rem;
+}

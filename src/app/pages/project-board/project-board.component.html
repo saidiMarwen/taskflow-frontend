@@ -4,7 +4,7 @@
   <p class="subtitle">{{ project()?.description }}</p>
 
   @if (error()) {
-    <p class="error"><mat-icon>error</mat-icon> {{ error() }}</p>
+  <p class="error"><mat-icon>error</mat-icon> {{ error() }}</p>
   }
 
   <mat-card class="create">
@@ -29,30 +29,38 @@
 
   <div class="board" cdkDropListGroup>
     @for (col of columns; track col.status) {
-      <section class="column">
-        <h2>{{ col.label }} <span class="count">{{ tasks[col.status].length }}</span></h2>
+    <section class="column">
+      <h2>{{ col.label }} <span class="count">{{ tasks[col.status].length }}</span></h2>
 
-        <div class="list" cdkDropList
-             [cdkDropListData]="tasks[col.status]"
-             (cdkDropListDropped)="drop($event, col.status)">
-          @for (t of tasks[col.status]; track t.id) {
-            <mat-card class="task" cdkDrag appearance="outlined">
-              <div class="task-header">
-                <strong>{{ t.title }}</strong>
-                <button mat-icon-button (click)="deleteTask(t)" aria-label="Supprimer">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </div>
-              <div class="meta">
-                <span class="badge" [class]="'badge ' + t.priority">{{ t.priority }}</span>
-                @if (t.dueDate) {
-                  <span class="due"><mat-icon>event</mat-icon> {{ t.dueDate }}</span>
-                }
-              </div>
-            </mat-card>
-          }
-        </div>
-      </section>
+      <div class="list" cdkDropList [cdkDropListData]="tasks[col.status]"
+        (cdkDropListDropped)="drop($event, col.status)">
+        @for (t of tasks[col.status]; track t.id) {
+        <mat-card class="task" cdkDrag appearance="outlined">
+          <div class="task-header">
+            <strong>{{ t.title }}</strong>
+            <button mat-icon-button (click)="deleteTask(t)" aria-label="Supprimer">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <div class="meta">
+            <span class="badge" [class]="'badge ' + t.priority">{{ t.priority }}</span>
+            @if (t.dueDate) {
+            <span class="due"><mat-icon>event</mat-icon> {{ t.dueDate }}</span>
+            }
+          </div>
+          <mat-form-field appearance="outline" class="assignee">
+            <mat-label>Assignée à</mat-label>
+            <mat-select [value]="t.assigneeId" (selectionChange)="assign(t, $event.value)">
+              @for (u of users; track u.id) {
+              <mat-option [value]="u.id">{{ u.username }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+        </mat-card>
+        }
+      </div>
+    </section>
     }
   </div>
 </div>
