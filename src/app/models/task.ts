@@ -10,6 +10,8 @@ export interface Task {
   dueDate: string | null;
   projectId: number;
   createdAt: string;
+  assigneeId: number | null;
+  assigneeName: string | null;
 }
 
 export interface TaskRequest {
