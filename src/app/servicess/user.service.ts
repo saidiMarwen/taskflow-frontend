@@ -8,6 +8,6 @@ export class UserService {
   private http = inject(HttpClient);
 
   getUsers(): Observable<UserSummary[]> {
-    return this.http.get<UserSummary[]>('http://localhost:8080/api/users');
+    return this.http.get<UserSummary[]>('/api/users');
   }
 }

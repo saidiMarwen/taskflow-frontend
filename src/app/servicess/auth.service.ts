@@ -10,7 +10,7 @@ const STORAGE_KEY = 'taskflow_auth';
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private api = 'http://localhost:8080/api/auth';
+  private api = '/api/auth';
 
   private session = signal<AuthResponse | null>(this.load());
 

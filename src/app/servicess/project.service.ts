@@ -6,7 +6,7 @@ import { Project, ProjectRequest } from '../models/project';
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/projects';
+  private apiUrl = '/api/projects';
 
   findAll(): Observable<Project[]> {
     return this.http.get<Project[]>(this.apiUrl);

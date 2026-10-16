@@ -6,7 +6,7 @@ import { Task, TaskRequest, TaskStatus } from '../models/task';
 @Injectable({ providedIn: 'root' })
 export class TaskService {
   private http = inject(HttpClient);
-  private api = 'http://localhost:8080/api';
+  private api = '/api';
 
   findByProject(projectId: number): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.api}/projects/${projectId}/tasks`);
