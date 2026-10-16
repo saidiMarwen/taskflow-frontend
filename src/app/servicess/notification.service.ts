@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { interval, startWith, switchMap, Subscription } from 'rxjs';
+import { interval, startWith, switchMap, Subscription, filter } from 'rxjs';
 import { AppNotification } from '../models/notification';
 
 @Injectable({ providedIn: 'root' })
@@ -14,15 +14,16 @@ export class NotificationService {
 
   startPolling(): void {
     this.stopPolling();
-    this.sub = interval(5000).pipe(
+    this.sub = interval(30000).pipe(
       startWith(0),
+      filter(() => document.visibilityState === 'visible'),
       switchMap(() => this.http.get<AppNotification[]>(this.api))
     ).subscribe({
       next: (list) => {
         this.notifications.set(list);
         this.unread.set(list.filter((n) => !n.read).length);
       },
-      error: () => {}
+      error: () => { }
     });
   }
 
