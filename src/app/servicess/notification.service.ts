@@ -6,7 +6,7 @@ import { AppNotification } from '../models/notification';
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
   private http = inject(HttpClient);
-  private api = 'http://localhost:8080/api/notifications';
+  private api = 'http://localhost:8081/api/notifications';
   private sub?: Subscription;
 
   notifications = signal<AppNotification[]>([]);
